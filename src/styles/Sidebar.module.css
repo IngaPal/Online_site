@@ -1,0 +1,62 @@
+.sidebar {
+  width: 304px;
+  padding: 24px;
+  height: 100vh; /* Изменено для занятия всей высоты экрана */
+  display: flex;
+  flex-direction: column;
+  background-color: var(--dark); /* Добавлен фоновый цвет */
+}
+
+.title {
+  font-weight: 600;
+  line-height: 20px;
+  margin-bottom: 16px; /* Добавлен отступ снизу */
+}
+
+.nav {
+  flex-grow: 1; /* Позволяет навигации занимать все доступное пространство */
+  overflow: hidden; /* Скрывает прокрутку на уровне навигации */
+}
+
+.menu {
+  height: 100%; /* Занимает всю высоту навигации */
+  overflow-y: auto; /* Добавляет вертикальную прокрутку */
+  padding-right: 10px; /* Добавляет отступ справа для прокрутки */
+}
+
+.menu::-webkit-scrollbar {
+  width: 5px; /* Ширина полосы прокрутки */
+}
+
+.menu::-webkit-scrollbar-thumb {
+  background-color: var(--dark-sea); /* Цвет полосы прокрутки */
+  border-radius: 5px; /* Скругление углов полосы прокрутки */
+}
+
+.menu li {
+  margin-bottom: 12px; /* Отступ между элементами списка */
+}
+
+.link {
+  color: var(--dark-sea);
+  font-size: 14px;
+  line-height: 17px;
+  text-transform: capitalize;
+  transition: color 0.2s ease; /* Плавное изменение цвета при наведении */
+}
+
+.link:hover {
+  color: var(--white);
+}
+
+.link.active {
+  color: var(--violet);
+}
+
+.footer {
+  margin-top: 20px; /* Увеличен отступ сверху */
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px; /* Добавлен отступ сверху */
+  border-top: 1px solid var(--dark-sea); /* Добавлена разделительная линия */
+}
