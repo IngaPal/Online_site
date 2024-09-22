@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -13,18 +13,18 @@ const Category = () => {
   const { list } = useSelector(({ categories }) => categories);
   const productsRef = useRef(null);
 
-  const defaultValues = {
+  const defaultValues = useMemo(() => ({
     title: "",
     price_min: 0,
     price_max: 0,
-  };
+  }), []);
 
-  const defaultParams = {
+  const defaultParams = useMemo(() => ({
     categoryId: id,
     limit: 5,
     offset: 0,
     ...defaultValues,
-  };
+  }), [id, defaultValues]);
 
   const [isEnd, setEnd] = useState(false);
   const [cat, setCat] = useState(null);
@@ -40,8 +40,8 @@ const Category = () => {
     setValues(defaultValues);
     setItems([]);
     setEnd(false);
-    setParams({ ...defaultParams, categoryId: id });
-  }, [id]);
+    setParams(defaultParams);
+  }, [id, defaultValues, defaultParams]);
 
   useEffect(() => {
     if (isLoading) return;
