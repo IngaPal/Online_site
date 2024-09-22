@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -46,16 +46,17 @@ const Category = () => {
   useEffect(() => {
     if (isLoading) return;
 
-    if (!data.length) return setEnd(true);
-
-    setItems((_items) => [..._items, ...data]);
+    if (!data.length) {
+      setEnd(true);
+    } else {
+      setItems((_items) => [..._items, ...data]);
+    }
   }, [data, isLoading]);
 
   useEffect(() => {
     if (!id || !list.length) return;
 
     const category = list.find((item) => item.id === id * 1);
-
     setCat(category);
   }, [list, id]);
 
@@ -63,25 +64,25 @@ const Category = () => {
     if (isSuccess && !isLoading && items.length > 0) {
       productsRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [isSuccess, isLoading, items]);
+  }, [isSuccess, isLoading, items.length]);
 
-  const handleChange = ({ target: { value, name } }) => {
-    setValues({ ...values, [name]: value });
-  };
+  const handleChange = useCallback(({ target: { value, name } }) => {
+    setValues((prevValues) => ({ ...prevValues, [name]: value }));
+  }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
 
     setItems([]);
     setEnd(false);
-    setParams({ ...defaultParams, ...values });
-  };
+    setParams((prevParams) => ({ ...prevParams, ...values }));
+  }, [values]);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setValues(defaultValues);
     setParams(defaultParams);
     setEnd(false);
-  };
+  }, [defaultValues, defaultParams]);
 
   return (
     <section className={styles.wrapper}>
@@ -143,7 +144,10 @@ const Category = () => {
         <div className={styles.more}>
           <button
             onClick={() =>
-              setParams({ ...params, offset: params.offset + params.limit })
+              setParams((prevParams) => ({
+                ...prevParams,
+                offset: prevParams.offset + prevParams.limit,
+              }))
             }
           >
             See more
